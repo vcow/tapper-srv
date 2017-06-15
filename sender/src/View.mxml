@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<local:ViewBase xmlns:f="library://ns.feathersui.com/mxml" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:local="*"
+                creationComplete="onCreationComplete()">
+
+    <local:layout>
+        <f:VerticalLayout gap="15" horizontalAlign="center" padding="25"/>
+    </local:layout>
+
+    <f:LayoutGroup>
+        <f:layout>
+            <f:HorizontalLayout gap="10" verticalAlign="middle"/>
+        </f:layout>
+        <f:Label text="Login:" minWidth="80"/>
+        <f:TextInput id="loginInput" minWidth="150"/>
+    </f:LayoutGroup>
+
+    <f:LayoutGroup>
+        <f:layout>
+            <f:HorizontalLayout gap="10" verticalAlign="middle"/>
+        </f:layout>
+        <f:Label text="Password:" minWidth="80"/>
+        <f:TextInput id="passwordInput" minWidth="150"/>
+    </f:LayoutGroup>
+
+    <f:Button label="Get data" triggered="onGetData()"/>
+
+    <fx:Script><![CDATA[
+        import flash.events.Event;
+        import flash.events.IOErrorEvent;
+        import flash.events.SecurityErrorEvent;
+
+        private static const URL:String = "http://vcow.pythonanywhere.com/";
+
+        private var _loaders:Vector.<URLLoader> = new Vector.<URLLoader>();
+
+        private function onGetData():void
+        {
+
+        }
+
+        private function onCreationComplete():void
+        {
+            URLRequestDefaults.authenticate = false;
+            URLRequestDefaults.cacheResponse = false;
+            URLRequestDefaults.useCache = false;
+
+            getData();
+        }
+
+        private function getData():void
+        {
+            var variables:URLVariables = new URLVariables();
+            variables.user = loginInput.text;
+            variables.password = passwordInput.text;
+            send(URL + "data/get/", variables);
+        }
+
+        private function send(url:String, data:URLVariables):void
+        {
+            var loader:URLLoader = new URLLoader();
+            loader.addEventListener(IOErrorEvent.IO_ERROR, onError);
+            loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onError);
+            loader.addEventListener(flash.events.Event.COMPLETE, onComplete);
+            var request:URLRequest = new URLRequest(url);
+            request.data = data;
+            loader.load(request);
+            _loaders.push(loader);
+        }
+
+        private function onError(event:flash.events.Event):void
+        {
+            removeLoader(event.target as URLLoader);
+            trace(event["text"]);
+        }
+
+        private function onComplete(event:flash.events.Event):void
+        {
+            var loader:URLLoader = removeLoader(event.target as URLLoader);
+        }
+
+        private function removeLoader(loader:URLLoader):URLLoader
+        {
+            var index:int = _loaders.indexOf(loader);
+            if (index != -1)
+            {
+                _loaders.splice(index, 1);
+                loader.removeEventListener(IOErrorEvent.IO_ERROR, onError);
+                loader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, onError);
+                loader.removeEventListener(flash.events.Event.COMPLETE, onComplete);
+            }
+            return loader;
+        }
+        ]]></fx:Script>
+</local:ViewBase>

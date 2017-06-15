@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="Flex" version="4">
+  <component name="FlexBuildConfigurationManager" active="sender">
+    <configurations>
+      <configuration name="sender" target-platform="Mobile" main-class="Main" output-file="Main.swf" output-folder="$MODULE_DIR$/out/production/sender">
+        <dependencies>
+          <entries>
+            <entry library-name="feathers-3.1.1" library-level="application">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="MetalWorksDesktopTheme" library-level="application">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="FeathersSDK3.1.1" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop />
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/Main-app.xml" package-file-name="sender" />
+        <packaging-ios package-file-name="sender" />
+      </configuration>
+    </configurations>
+    <compiler-options />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="FeathersSDK3.1.1" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="feathers-3.1.1" level="application" />
+    <orderEntry type="library" exported="" name="MetalWorksDesktopTheme" level="application" />
+  </component>
+</module>
