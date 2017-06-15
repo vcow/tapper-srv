@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from os import getenv
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -23,7 +25,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '+q+@=44q@q#_dln310alr#ibeo$pzoh#jw4gnj32(7!f&+^qlz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if getenv('DEBUG_MODE', 'False').upper() == 'TRUE':
+    DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = [u'vcow.pythonanywhere.com', u'127.0.0.1']
 
@@ -73,15 +78,27 @@ WSGI_APPLICATION = 'simdev.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vcow$simdev',
-        'USER': 'vcow',
-        'PASSWORD': '1974simdev32768',
-        'HOST': 'vcow.mysql.pythonanywhere-services.com',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'simdev',
+            'USER': 'postgres',
+            'PASSWORD': '32768',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'vcow$simdev',
+            'USER': 'vcow',
+            'PASSWORD': '1974simdev32768',
+            'HOST': 'vcow.mysql.pythonanywhere-services.com',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
