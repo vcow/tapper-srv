@@ -2,3 +2,4 @@
 /*.sqlite3
 /sender/out
 /sender/.idea
+/sender/*.iml

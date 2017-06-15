@@ -29,13 +29,14 @@
         import flash.events.IOErrorEvent;
         import flash.events.SecurityErrorEvent;
 
-        private static const URL:String = "http://vcow.pythonanywhere.com/";
+        private static const URL:String = "http://127.0.0.1:8000/";
+//        private static const URL:String = "http://vcow.pythonanywhere.com/";
 
         private var _loaders:Vector.<URLLoader> = new Vector.<URLLoader>();
 
         private function onGetData():void
         {
-
+            getData();
         }
 
         private function onCreationComplete():void
@@ -43,8 +44,6 @@
             URLRequestDefaults.authenticate = false;
             URLRequestDefaults.cacheResponse = false;
             URLRequestDefaults.useCache = false;
-
-            getData();
         }
 
         private function getData():void
