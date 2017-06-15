@@ -25,7 +25,7 @@ SECRET_KEY = '+q+@=44q@q#_dln310alr#ibeo$pzoh#jw4gnj32(7!f&+^qlz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'vcow.pythonanywhere.com']
+ALLOWED_HOSTS = [u'vcow.pythonanywhere.com', u'127.0.0.1']
 
 
 # Application definition
@@ -75,8 +75,10 @@ WSGI_APPLICATION = 'simdev.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': 'my.cnf',
+        },
     }
 }
 
