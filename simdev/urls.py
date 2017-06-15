@@ -16,9 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from index.views import index
+from index.views import index, data_get, data_set
 
 urlpatterns = [
     url(r'^$', index),
+    url(r'^data/get/$', data_get),
+    url(r'^data/set/$', data_set),
     url(r'^admin/', admin.site.urls),
 ]
