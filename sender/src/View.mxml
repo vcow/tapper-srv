@@ -25,6 +25,8 @@
     <f:Button label="Get data" triggered="onGetData()"/>
 
     <fx:Script><![CDATA[
+        import com.adobe.crypto.MD5;
+
         import flash.events.Event;
         import flash.events.IOErrorEvent;
         import flash.events.SecurityErrorEvent;
@@ -49,8 +51,7 @@
         private function getData():void
         {
             var variables:URLVariables = new URLVariables();
-            variables.user = loginInput.text;
-            variables.password = passwordInput.text;
+            variables.hash = MD5.hash(loginInput.text + passwordInput.text);
             send(URL + "data/get/", variables);
         }
 
