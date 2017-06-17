@@ -22,7 +22,17 @@
         <f:TextInput id="passwordInput" minWidth="150"/>
     </f:LayoutGroup>
 
+    <f:LayoutGroup>
+        <f:layout>
+            <f:HorizontalLayout gap="10" verticalAlign="middle"/>
+        </f:layout>
+        <f:Label text="Scores:" minWidth="80"/>
+        <f:TextInput id="scoresInput" minWidth="150"/>
+    </f:LayoutGroup>
+
     <f:Button label="Get data" triggered="onGetData()"/>
+
+    <f:Button label="Set data" triggered="onSetData()"/>
 
     <fx:Script><![CDATA[
         import com.adobe.crypto.MD5;
@@ -30,6 +40,10 @@
         import flash.events.Event;
         import flash.events.IOErrorEvent;
         import flash.events.SecurityErrorEvent;
+
+        import starling.core.Starling;
+
+        import starling.utils.StringUtil;
 
         private static const URL:String = "http://127.0.0.1:8000/";
 //        private static const URL:String = "http://vcow.pythonanywhere.com/";
@@ -39,6 +53,11 @@
         private function onGetData():void
         {
             getData();
+        }
+
+        private function onSetData():void
+        {
+            setData();
         }
 
         private function onCreationComplete():void
@@ -51,12 +70,30 @@
         private function getData():void
         {
             var variables:URLVariables = new URLVariables();
-            variables.hash = MD5.hash(loginInput.text + passwordInput.text);
+            variables.hash = MD5.hash(StringUtil.trim(loginInput.text).slice(0, 12) + passwordInput.text.slice(0, 50));
             send(URL + "data/get/", variables);
+        }
+
+        private function register():void
+        {
+            var variables:URLVariables = new URLVariables();
+            variables.username = StringUtil.trim(loginInput.text).slice(0, 12);
+            variables.password = passwordInput.text.slice(0, 50);
+            send(URL + "data/register/", variables);
+        }
+
+        private function setData():void
+        {
+            var scores:Number = Number(scoresInput.text);
+            var variables:URLVariables = new URLVariables();
+            variables.hash = MD5.hash(StringUtil.trim(loginInput.text).slice(0, 12) + passwordInput.text.slice(0, 50));
+            variables.scores = isNaN(scores) ? 0 : Math.floor(scores).toString();
+            send(URL + "data/set/", variables);
         }
 
         private function send(url:String, data:URLVariables):void
         {
+            Starling.current.stage.touchable = false;
             var loader:URLLoader = new URLLoader();
             loader.addEventListener(IOErrorEvent.IO_ERROR, onError);
             loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onError);
@@ -69,13 +106,44 @@
 
         private function onError(event:flash.events.Event):void
         {
+            Starling.current.stage.touchable = true;
             removeLoader(event.target as URLLoader);
             trace(event["text"]);
         }
 
         private function onComplete(event:flash.events.Event):void
         {
+            Starling.current.stage.touchable = true;
             var loader:URLLoader = removeLoader(event.target as URLLoader);
+            try {
+                processResponse(JSON.parse(loader.data));
+            }
+            catch (e:Error) {
+                processResponse({error: "unexpected"});
+            }
+        }
+
+        private function processResponse(response:Object):void
+        {
+            if (response.hasOwnProperty("error"))
+            {
+                switch (response.error.toLowerCase())
+                {
+                    case "not registered":
+                        register();
+                        break;
+                }
+            }
+            else if (response.hasOwnProperty("cmd"))
+            {
+                switch (response.cmd)
+                {
+                    case "register":
+                        if (response.result == "success")
+                            setData();
+                        break;
+                }
+            }
         }
 
         private function removeLoader(loader:URLLoader):URLLoader
