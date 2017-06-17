@@ -36,6 +36,7 @@
 
     <fx:Script><![CDATA[
         import com.adobe.crypto.MD5;
+        import com.sociodox.utils.Base64;
 
         import flash.events.Event;
         import flash.events.IOErrorEvent;
@@ -85,10 +86,35 @@
         private function setData():void
         {
             var scores:Number = Number(scoresInput.text);
+            var scoresText:String = (isNaN(scores) ? 0 : Math.floor(scores)).toString();
             var variables:URLVariables = new URLVariables();
-            variables.hash = MD5.hash(StringUtil.trim(loginInput.text).slice(0, 12) + passwordInput.text.slice(0, 50));
-            variables.scores = isNaN(scores) ? 0 : Math.floor(scores).toString();
+            var data:Object = {
+                scores: encode(scoresText)
+            };
+            variables.data = JSON.stringify(data);
             send(URL + "data/set/", variables);
+        }
+
+        private static function encode(msg:String):String
+        {
+            var buffer1:ByteArray = new ByteArray();
+            buffer1.writeUTFBytes(msg);
+            for (var i:int = 0, l:int = buffer1.length % 4; i < l; i++) buffer1.writeByte(0);
+            buffer1.position = 0;
+            var buffer2:ByteArray = new ByteArray();
+            while (buffer1.bytesAvailable)
+            {
+                var chunk:uint = buffer1.readUnsignedInt() ^ 0xe6eeefe0;
+                buffer2.writeUnsignedInt(chunk);
+            }
+            buffer2.position = 0;
+            var md5:String = MD5.hash(msg);
+            buffer1.clear();
+            buffer1.writeUTFBytes(md5);
+            buffer1.writeInt(msg.length);
+            buffer1.writeBytes(buffer2);
+            buffer1.position = 0;
+            return Base64.encode(buffer1);
         }
 
         private function send(url:String, data:URLVariables):void
