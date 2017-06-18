@@ -15,19 +15,8 @@ def index(request):
 
 
 def data_get(request):
-    auth_hash = request.GET.get(u'hash', '').lower()
     if request.user.is_authenticated:
-        if len(auth_hash) == 32 and request.user.username == auth_hash or len(auth_hash) == 0:
-            return get_rating_for(request.user)
-        else:
-            logout(request)
-    elif len(auth_hash) == 32:
-        try:
-            user = User.objects.get(username=auth_hash)
-            login(request, user)
-            return get_rating_for(user)
-        except User.DoesNotExist:
-            pass
+        return get_rating_for(request.user)
     return get_rating_for(None)
 
 
@@ -44,13 +33,13 @@ def data_set(request):
             record.scores = scores
             record.data = json.dumps(data)
             record.save()
-        return HttpResponse('{"cmd": "login", "result": "success"}')
+        return HttpResponse('{"cmd": "set", "result": "success"}')
     return HttpResponse('{"error": "Not authenticated"}')
 
 
 def decode(encoded):
     if encoded is None:
-        return long(0)
+        return 0L
     try:
         binary = base64.decodestring(encoded)
         scores_hash = binary[0:32]
@@ -69,7 +58,7 @@ def decode(encoded):
             return long(scores)
     except Exception as e:
         pass
-    return long(0)
+    return 0L
 
 
 def auth(request):
@@ -83,7 +72,7 @@ def auth(request):
             auth_hash = m.hexdigest()
             if request.user.is_authenticated:
                 if request.user.username == auth_hash:
-                    return HttpResponse('{"cmd": "login", "result": "success"}')
+                    return HttpResponse('{"cmd": "auth", "result": "success"}')
                 else:
                     logout(request)
                     return HttpResponse('{"error": "Wrong login password"}')
@@ -91,11 +80,11 @@ def auth(request):
                 user = authenticate(username=auth_hash, password=password)
                 if user is not None:
                     login(request, user)
-                    return HttpResponse('{"cmd": "login", "result": "success"}')
+                    return HttpResponse('{"cmd": "auth", "result": "success"}')
                 else:
                     return HttpResponse('{"error": "Not registered"}')
     if request.user.is_authenticated:
-        return HttpResponse('{"cmd": "login", "result": "success"}')
+        return HttpResponse('{"cmd": "auth", "result": "success"}')
     return HttpResponse('{"error": "Wrong login password"}')
 
 
@@ -112,7 +101,7 @@ def register(request):
             auth_hash = m.hexdigest()
             try:
                 user = User.objects.get(username=auth_hash)
-                return HttpResponse({'error': 'Already registered'})
+                return HttpResponse('{"error": "Already registered"}')
             except User.DoesNotExist:
                 user = User.objects.create_user(username=auth_hash, password=password, first_name=username)
                 return HttpResponse('{"cmd": "register", "result": "success"}')
@@ -120,5 +109,27 @@ def register(request):
 
 
 def get_rating_for(user):
-    leaders = User.objects.filter(record__isnull=False).order_by('record__scores')[:10]
+    leaders = User.objects.filter(record__isnull=False).order_by('-record__scores')[:10].\
+        values('first_name', 'record__scores', 'record__data')
+    leaders_list = []
+    try:
+        for leader in leaders:
+            data = json.loads(leader[u'record__data'])
+            data[u'name'] = leader[u'first_name']
+            data[u'scores'] = str(leader[u'record__scores'])
+            leaders_list.append(data)
+        result = {u'leaders': leaders_list}
+        if user is not None:
+            try:
+                record = user.record
+                data = json.loads(record.data)
+                data[u'name'] = user.first_name
+                data[u'scores'] = str(record.scores)
+                data[u'index'] = Record.objects.filter(scores__gt=record.scores).count()
+                result[u'user'] = data
+            except Record.DoesNotExist:
+                pass
+        return HttpResponse(json.dumps(result))
+    except:
+        pass
     return HttpResponse('{}')

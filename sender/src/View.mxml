@@ -30,6 +30,8 @@
         <f:TextInput id="scoresInput" minWidth="150"/>
     </f:LayoutGroup>
 
+    <f:Button label="Register" triggered="onRegister()"/>
+
     <f:Button label="Get data" triggered="onGetData()"/>
 
     <f:Button label="Set data" triggered="onSetData()"/>
@@ -61,6 +63,11 @@
             setData();
         }
 
+        private function onRegister():void
+        {
+            register();
+        }
+
         private function onCreationComplete():void
         {
             URLRequestDefaults.authenticate = false;
@@ -70,9 +77,7 @@
 
         private function getData():void
         {
-            var variables:URLVariables = new URLVariables();
-            variables.hash = MD5.hash(StringUtil.trim(loginInput.text).slice(0, 12) + passwordInput.text.slice(0, 50));
-            send(URL + "data/get/", variables);
+            send(URL + "data/get/", null);
         }
 
         private function register():void
@@ -81,6 +86,14 @@
             variables.username = StringUtil.trim(loginInput.text).slice(0, 12);
             variables.password = passwordInput.text.slice(0, 50);
             send(URL + "data/register/", variables);
+        }
+
+        private function auth():void
+        {
+            var variables:URLVariables = new URLVariables();
+            variables.username = StringUtil.trim(loginInput.text).slice(0, 12);
+            variables.password = passwordInput.text.slice(0, 50);
+            send(URL + "data/auth/", variables);
         }
 
         private function setData():void
@@ -141,8 +154,9 @@
         {
             Starling.current.stage.touchable = true;
             var loader:URLLoader = removeLoader(event.target as URLLoader);
+            var data:String = String(loader.data);
             try {
-                processResponse(JSON.parse(loader.data));
+                processResponse(JSON.parse(data));
             }
             catch (e:Error) {
                 processResponse({error: "unexpected"});
@@ -158,6 +172,12 @@
                     case "not registered":
                         register();
                         break;
+                    case "not authenticated":
+                        auth();
+                        break;
+                    case "already registered":
+                        setData();
+                        break;
                 }
             }
             else if (response.hasOwnProperty("cmd"))
@@ -165,8 +185,15 @@
                 switch (response.cmd)
                 {
                     case "register":
-                        if (response.result == "success")
-                            setData();
+                        auth();
+                        break;
+                    case "auth":
+                        setData();
+                        break;
+                    case "set":
+                        loginInput.text = "";
+                        passwordInput.text = "";
+                        scoresInput.text = Math.floor(Math.random() * 10000000000.0).toString();
                         break;
                 }
             }
