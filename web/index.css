@@ -1,0 +1,39 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    background-color: #212121;
+    display: table;
+    width: 100%;
+}
+
+footer {
+    background-color: #9e9e9e;
+     min-height: 20px;
+}
+
+#main_section {
+    display: table-row;
+    height: 100%;
+}
+
+#main_section > div {
+    display: table;
+    margin: auto;
+}
+
+#main_section figure {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#main_section figure {
+    height: 100%;
+}
+
+#main_section section {
+    display: table-cell;
+}
