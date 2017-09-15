@@ -135,7 +135,7 @@ USE_L10N = True
 USE_TZ = True
 
 if DEBUG:
-    LOCALE_ROOT = BASE_DIR + '/simdev'
+    LOCALE_ROOT = BASE_DIR
 else:
     LOCALE_ROOT = u'/home/vcow/simdev'
 
