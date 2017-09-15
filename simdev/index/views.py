@@ -7,11 +7,15 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from struct import unpack
 
+from django.utils import translation
+from django.utils.translation import ugettext
+
 from simdev.index.models import Record
 
 
 def index(request):
-    return HttpResponse('Simdev main page.')
+    output = ugettext('Simdev main page.')
+    return HttpResponse(output)
 
 
 def data_get(request):
