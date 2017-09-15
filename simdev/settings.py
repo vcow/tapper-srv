@@ -58,10 +58,18 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'simdev.urls'
 
+
+if DEBUG:
+    TEMPLATES_ROOT = BASE_DIR
+else:
+    TEMPLATES_ROOT = u'/home/vcow/simdev'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(TEMPLATES_ROOT, 'template'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,7 +148,7 @@ else:
     LOCALE_ROOT = u'/home/vcow/simdev'
 
 LOCALE_PATHS = [
-    LOCALE_ROOT + '/locale/'
+    os.path.join(LOCALE_ROOT, 'locale')
 ]
 
 
@@ -153,4 +161,10 @@ STATIC_URL = '/static/'
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = u'/home/vcow/simdev/media'
 MEDIA_URL = '/media/'
-STATIC_ROOT = u'/home/vcow/simdev/static'
+
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ]
+else:
+    STATIC_ROOT = u'/home/vcow/simdev/static'

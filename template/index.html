@@ -1,0 +1,33 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'index/index.css' %}" media="all"/>
+</head>
+
+<body>
+<section id="main_section">
+    <div>
+        <figure>
+            <img src="{% static 'index/main_theme.png' %}"/>
+        </figure>
+
+        <section>
+            <header>
+                <p>{% trans 'Bloodsucker' %}</p>
+            </header>
+
+            <article>
+            </article>
+        </section>
+    </div>
+</section>
+
+<footer>
+</footer>
+</body>
+</html>
