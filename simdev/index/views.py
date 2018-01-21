@@ -93,6 +93,12 @@ def auth(request):
     return HttpResponse('{"error": "Wrong login password"}')
 
 
+def close(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return HttpResponse('{"cmd": "close", "result": "success"}')
+
+
 def register(request):
     if request.user.is_authenticated:
         logout(request)

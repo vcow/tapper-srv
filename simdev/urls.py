@@ -17,13 +17,14 @@ from django.conf.urls import url, include
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 
-from index.views import index, data_get, data_set, register, auth
+from index.views import index, data_get, data_set, register, auth, close
 
 urlpatterns = [
     url(r'^data/get/$', data_get),
     url(r'^data/set/$', data_set),
     url(r'^data/register/$', register),
     url(r'^data/auth/$', auth),
+    url(r'^data/close/$', close),
     url(r'^admin/', admin.site.urls),
     url(r'^i18n/', include('django.conf.urls.i18n')),
 ]
