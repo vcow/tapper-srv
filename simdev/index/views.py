@@ -1,15 +1,12 @@
 import base64
 import hashlib
 import json
+from struct import unpack
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from struct import unpack
-
 from django.template.loader import render_to_string
-from django.utils import translation
-from django.utils.translation import ugettext
 
 from simdev.index.models import Record
 

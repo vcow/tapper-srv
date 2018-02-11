@@ -17,7 +17,7 @@ body {
 
 footer {
     background-color: #9e9e9e;
-     min-height: 20px;
+    min-height: 20px;
 }
 
 p {
@@ -28,6 +28,16 @@ header p {
     color: #ff6d00;
     font-family: "Geisha", Arial, sans-serif;
     font-size: 56px;
+}
+
+article p {
+    max-width: 450px;
+    font-size: 16pt;
+    font-family: arial;
+}
+
+section {
+    padding-left: 30px;
 }
 
 #main_section {
