@@ -1,15 +1,24 @@
 {% load static %}
 {% load i18n %}
 
+{% get_current_language as LANGUAGE_CODE %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{% blocktrans %}Miroed Main page{% endblocktrans %}</title>
     <link type="text/css" rel="stylesheet" href="{% static 'index/index.css' %}" media="all"/>
 </head>
 
 <body>
+<section id="caption">
+    <div>
+        <a href="/"><img src="{% static 'index/lang-ru-ru.png' %}" /></a>
+        <a href="/en/"><img src="{% static 'index/lang-en-us.png' %}" /></a>
+    </div>
+</section>
+
 <section id="main_section">
     <div>
         <figure>
@@ -25,6 +34,14 @@
                 <p>{% blocktrans %}Start with a small businessman, who works only illegal migrant workers, and grow to the ruler of the world, juggling galaxies - easily! Call for yourself a universal success, and be proud, when envious persons call you a miroed.{% endblocktrans %}</p>
             </article>
         </section>
+    </div>
+</section>
+
+<section id="underground">
+    <div>
+        {% with 'index/google-play-badge-'|add:LANGUAGE_CODE|add:'.png' as BADGE_URL %}
+        <a href="http://play.google.com/store/apps/details?id=air.qtap"><img src="{% static BADGE_URL %}" /></a>
+        {% endwith %}
     </div>
 </section>
 
