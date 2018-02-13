@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-11 20:46+0300\n"
+"POT-Creation-Date: 2018-02-13 08:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,20 +20,22 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\template\index.html:21
+#: .\template\index.html:10 .\template\index.html:42
+msgid "Miroed Main page"
+msgstr "Мироед Главная страница"
+
+#: .\template\index.html:34
 msgid "Miroed"
 msgstr "Мироед"
 
-#: .\template\index.html:25
+#: .\template\index.html:38
 msgid ""
 "Start with a small businessman, who works only illegal migrant workers, and "
 "grow to the ruler of the world, juggling galaxies - easily! Call for "
 "yourself a universal success, and be proud, when envious persons call you a "
 "miroed."
 msgstr ""
-"Начать с мелкого дельца, на которого работают лишь нелегалы-гастарбайтеры, "
-"и дорасти до повелителя Мира, жонглирующего галактиками - запросто! Накликай "
-"себе вселенский успех, и возгордись, когда завистники за глаза назовут тебя мироедом."
-
-#~ msgid "Simdev main page."
-#~ msgstr "Simdev главная страница."
+"Начать с мелкого дельца, на которого работают лишь нелегалы-гастарбайтеры, и "
+"дорасти до повелителя Мира, жонглирующего галактиками - запросто! Накликай "
+"себе вселенский успех, и возгордись, когда завистники за глаза назовут тебя "
+"мироедом."
