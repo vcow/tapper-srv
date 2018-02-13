@@ -6,7 +6,6 @@
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
 }
 
 body {
@@ -16,8 +15,15 @@ body {
 }
 
 footer {
-    background-color: #9e9e9e;
-    min-height: 20px;
+    display: table-row;
+}
+
+footer > div {
+    display: table-cell;
+    text-align: center;
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 15px;
 }
 
 p {
@@ -28,26 +34,31 @@ header p {
     color: #ff6d00;
     font-family: "Geisha", Arial, sans-serif;
     font-size: 56px;
+    margin-top: 25px;
+    margin-bottom: 35px;
 }
 
 article p {
     max-width: 450px;
     font-size: 16pt;
-    font-family: arial;
-}
-
-section {
-    padding-left: 30px;
+    font-family: Arial;
 }
 
 #main_section {
     display: table-row;
-    height: 100%;
 }
 
 #main_section > div {
     display: table;
     margin: auto;
+}
+
+#main_section > div div {
+    display: table-row;
+}
+
+#main_section > div section {
+    padding-left: 30px;
 }
 
 #main_section figure {
@@ -61,4 +72,32 @@ section {
 
 #main_section section {
     display: table-cell;
+}
+
+#main_section > div div#locals div {
+    display: table-cell;
+    text-align: right;
+    padding-top: 35px;
+    padding-right: 30px;
+}
+
+#main_section > div div#locals ul {
+}
+
+#main_section > div div#locals li {
+    display: inline;
+    margin-left: 15px;
+}
+
+#main_section > div div#locals a {
+    color: #e7e7e7;
+    font-family: Arial;
+}
+
+#main_section > div div#locals span {
+    padding-left: 7px;
+}
+
+#main_section > div div#locals img {
+    vertical-align: middle;
 }

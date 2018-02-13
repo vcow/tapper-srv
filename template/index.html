@@ -12,40 +12,42 @@
 </head>
 
 <body>
-<section id="caption">
-    <div>
-        <a href="/"><img src="{% static 'index/lang-ru-ru.png' %}" /></a>
-        <a href="/en/"><img src="{% static 'index/lang-en-us.png' %}" /></a>
-    </div>
-</section>
-
 <section id="main_section">
     <div>
-        <figure>
-            <img src="{% static 'index/main_theme.png' %}"/>
-        </figure>
+        <div id="locals">
+            <div></div>
+            <div>
+                <ul>
+                    <li><a href="/"><img src="{% static 'index/lang-ru-ru.png' %}" /><span>Рус</span></a></li>
+                    <li><a href="/en/"><img src="{% static 'index/lang-en-us.png' %}" /><span>Eng</span></a></li>
+                </ul>
+            </div>
+        </div>
 
-        <section>
-            <header>
-                <p>{% trans 'Miroed' %}</p>
-            </header>
+        <div>
+            <figure>
+                <img src="{% static 'index/main_theme.png' %}"/>
+            </figure>
 
-            <article>
-                <p>{% blocktrans %}Start with a small businessman, who works only illegal migrant workers, and grow to the ruler of the world, juggling galaxies - easily! Call for yourself a universal success, and be proud, when envious persons call you a miroed.{% endblocktrans %}</p>
-            </article>
-        </section>
+            <section>
+                <header>
+                    <p>{% trans 'Miroed' %}</p>
+                </header>
+
+                <article>
+                    <p>{% blocktrans %}Start with a small businessman, who works only illegal migrant workers, and grow to the ruler of the world, juggling galaxies - easily! Call for yourself a universal success, and be proud, when envious persons call you a miroed.{% endblocktrans %}</p>
+                </article>
+            </section>
+        </div>
     </div>
 </section>
 
-<section id="underground">
+<footer>
     <div>
         {% with 'index/google-play-badge-'|add:LANGUAGE_CODE|add:'.png' as BADGE_URL %}
         <a href="http://play.google.com/store/apps/details?id=air.qtap"><img src="{% static BADGE_URL %}" /></a>
         {% endwith %}
     </div>
-</section>
-
-<footer>
 </footer>
 </body>
 </html>
