@@ -44,6 +44,10 @@ article p {
     font-family: Arial;
 }
 
+article p#explanation {
+    font-size: 12pt;
+}
+
 #main_section {
     display: table-row;
 }

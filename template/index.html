@@ -36,6 +36,9 @@
 
                 <article>
                     <p>{% blocktrans %}Start with a small businessman, who works only illegal migrant workers, and grow to the ruler of the world, juggling galaxies - easily! Call for yourself a universal success, and be proud, when envious persons call you a miroed.{% endblocktrans %}</p>
+                    {% if LANGUAGE_CODE == 'en' %}
+                    <p id="explanation"><b>*Miroed</b> (rus) - exploiter, bloodsucker, harpy.<br/>Literally: devourer of the world.</p>
+                    {% endif %}
                 </article>
             </section>
         </div>
